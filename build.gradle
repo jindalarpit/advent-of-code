@@ -1,0 +1,113 @@
+plugins {
+    id 'java'
+//    id 'jacoco'
+//    id 'org.barfuin.gradle.jacocolog' version '1.0.1'
+    id 'application'
+}
+
+group 'com'
+version '1.0-SNAPSHOT'
+sourceCompatibility = "17"
+targetCompatibility = "17"
+
+ext {
+    PACKAGE_USER = System.getenv("PACKAGES_USER")
+    PACKAGE_TOKEN = System.getenv("PACKAGES_TOKEN")
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/it/java')
+        }
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+dependencies {
+
+    implementation group: 'org.reflections', name: 'reflections', version: '0.10.2'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+    implementation group: 'com.diogonunes', name: 'JColor', version: '5.2.0'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.8.0-beta4'
+    implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.8.0-beta4'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.10.0'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.17.1'
+    implementation group: 'io.github.cdimascio', name: 'java-dotenv', version: '5.2.2'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testCompileOnly 'org.projectlombok:lombok:1.18.26'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.21.0'
+
+}
+
+test {
+    useJUnitPlatform()
+//    finalizedBy jacocoTestReport
+}
+
+task integrationTest(type: Test) {
+    useJUnitPlatform()
+    description = 'Run integration tests.'
+    check.dependsOn(integrationTest)
+    group = 'verification'
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+}
+
+check.dependsOn integrationTest
+
+//jacoco {
+//    toolVersion = "0.8.7"
+//}
+
+//jacocoTestReport {
+//    dependsOn test
+//    reports {
+//        xml.required = true
+//        csv.required = false
+//        html.outputLocation = layout.buildDirectory.dir('jacoco')
+//    }
+//}
+
+application {
+    mainClass = 'com.adventofcode.SolverRunner'
+    description = 'Advent of Code Solver'
+}
+
+task generate(type: JavaExec) {
+    group = "Execution"
+    description = "Generate a new solution"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "com.adventofcode.GeneratorRunner"
+    standardInput = System.in
+    standardOutput = System.out
+}
+
+task scrape(type: JavaExec) {
+    group = "Execution"
+    description = "Generate a new solution by scraping adventofcode"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "com.adventofcode.ScraperRunner"
+    standardInput = System.in
+    standardOutput = System.out
+}
+

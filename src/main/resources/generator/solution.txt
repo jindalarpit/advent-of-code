@@ -1,0 +1,20 @@
+package com.adventofcode.solution.year{YEAR}.day{DAY};
+
+import com.adventofcode.annotations.AdventOfCodeSolution;
+import com.adventofcode.solution.Solution;
+
+import java.util.stream.Stream;
+
+@AdventOfCodeSolution(year = {YEAR}, day = {DAY}, part = {PART},
+        description = "{DESCRIPTION}",
+        link = "{LINK}",
+        tags = "{TAGS}"
+)
+public class Day{DAY}Part{PART}Solution{YEAR} implements Solution<{RESPONSE_TYPE}> {
+
+    @Override
+    public {RESPONSE_TYPE} solve(Stream<String> inputStream) {
+        return {TEST_RESPONSE};
+    }
+
+}
