@@ -2,14 +2,13 @@
 
 Solutions to the [Advent of Code](https://adventofcode.com/) problem sets.
 
-![build](https://github.com/ChrisTopping/advent-of-code/actions/workflows/build.yaml/badge.svg)
-
+![build](https://github.com/jindalarpit/advent-of-code/actions/workflows/build.yaml/badge.svg)
+```
 Year Day Part Name                                          Result          Duration (s)
 ========================================================================================
-2024 1   1    Historian Hysteria                            1530215         0.010
-2024 1   2    Historian Hysteria                            26800609        0.004
+2024 1   1    Historian Hysteria                            2756096         0.010
+2024 1   2    Historian Hysteria                            23117829        0.004
 ========================================================================================
-
 
 ```
 ---
@@ -129,7 +128,7 @@ annotation:
 
 ```java
 
-@AdventOfCodeSolution(year = 2015, day = 1, part = 1, description = "Let It Snow")
+@AdventOfCodeSolution(year = 2024, day = 1, part = 1, description = "Historian Hysteria")
 public class Day1Part1Solution implements Solution<Integer> {
 
     @Override
